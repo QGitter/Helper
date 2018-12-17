@@ -16,7 +16,28 @@ class SortTest extends TestCase
     public function testBubbleSort()
     {
         $arr = array(1, 5, 2, 4, 3);
-        $arr_sort = Sort::getInstance()->BubbleSort($arr);
+        $arr_sort = Sort::getInstance()->bubbleSort($arr);
+        print_r($arr_sort);
+    }
+
+    public function testInsertSort()
+    {
+        $arr = array(1, 5, 2, 4, 3);
+        $arr_sort = Sort::getInstance()->insertSort($arr);
+        print_r($arr_sort);
+    }
+
+    public function testSelectSort()
+    {
+        $arr = array(1, 5, 2, 4, 3);
+        $arr_sort = Sort::getInstance()->selectSort($arr);
+        print_r($arr_sort);
+    }
+
+    public function testQuickSort()
+    {
+        $arr = array(1, 5, 2, 4, 3);
+        $arr_sort = Sort::getInstance()->quickSort($arr);
         print_r($arr_sort);
     }
 }
