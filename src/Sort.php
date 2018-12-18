@@ -104,6 +104,9 @@ class Sort
             return [];
         }
         $length = count($arr);
+        if ($length <= 1) {
+            return $arr;
+        }
         $leftArray = $rightArray = array();
         $middle = $arr[0];
         for ($i = 1; $i < $length; $i++) {
@@ -117,4 +120,48 @@ class Sort
         $rightArray = $this->quickSort($rightArray);
         return array_merge($leftArray, array($middle), $rightArray);
     }
+
+    /**
+     * 归并排序
+     * 1、申请空间，使其大小为两个已经排序序列之和，该空间用来存放合并后的序列；
+     * 2、设定两个指针，最初位置分别为两个已经排序序列的起始位置
+     * 3、比较两个指针所指向的元素，选择相对小的元素放入到合并空间，并移动指针到下一位置
+     * 4、重复步骤3直到某一指针达到序列尾
+     * 5、将另一序列剩下的所有元素直接复制到合并序列尾
+     * @param array $arr
+     * @return array
+     */
+    public function mergeSort(array $arr): array
+    {
+        $length = count($arr);
+        if ($length <= 1) {
+            return $arr;
+        }
+        $left = $this->mergeSort(array_slice($arr, 0, floor($length / 2)));
+        $right = $this->mergeSort(array_slice($arr, floor($length / 2)));
+        $arr = $this->_merge($left, $right);
+        return $arr;
+    }
+
+    private function _merge(array $left, array $right): array
+    {
+        $arr = [];
+        $i = $j = 0;
+        $leftLen = count($left);
+        $rightLen = count($right);
+        while ($i < $leftLen && $j < $rightLen) {
+            if ($left[$i] < $right[$j]) {
+                $arr[] = $left[$i];
+                $i++;
+            } else {
+                $arr[] = $right[$j];
+                $j++;
+            }
+        }
+        $arr = array_merge($arr, array_slice($left, $i));
+        $arr = array_merge($arr, array_slice($right, $j));
+        return $arr;
+    }
+
+
 }

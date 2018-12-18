@@ -40,4 +40,11 @@ class SortTest extends TestCase
         $arr_sort = Sort::getInstance()->quickSort($arr);
         print_r($arr_sort);
     }
+
+    public function testMergeSort()
+    {
+        $arr = array(1, 5, 2, 3, 3, 4, 5, 6, 7, 8, 8, 9, 9);
+        $arr_sort = Sort::getInstance()->mergeSort($arr);
+        print_r($arr_sort);
+    }
 }
