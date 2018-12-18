@@ -16,10 +16,10 @@ class Sort
      */
     public function bubbleSort(array $arr): array
     {
-        if (empty($arr)) {
-            return [];
-        }
         $length = count($arr);
+        if ($length <= 1) {
+            return $arr;
+        }
         for ($i = 0; $i < $length; $i++) {
             for ($j = 0; $j < $length - 1 - $i; $j++) {
                 if ($arr[$j] > $arr[$j + 1]) {
@@ -44,10 +44,10 @@ class Sort
      */
     public function insertSort(array $arr): array
     {
-        if (empty($arr)) {
-            return [];
-        }
         $length = count($arr);
+        if ($length <= 1) {
+            return $arr;
+        }
         for ($i = 0; $i < $length; $i++) {
             $preIndex = $i - 1;
             $current = $arr[$i];
@@ -71,10 +71,10 @@ class Sort
      */
     public function selectSort(array $arr): array
     {
-        if (empty($arr)) {
-            return [];
-        }
         $length = count($arr);
+        if ($length <= 1) {
+            return $arr;
+        }
         for ($i = 0; $i < $length - 1; $i++) {
             $minIndex = $i;
             for ($j = $i + 1; $j < $length; $j++) {
@@ -100,9 +100,6 @@ class Sort
      */
     public function quickSort(array $arr): array
     {
-        if (empty($arr)) {
-            return [];
-        }
         $length = count($arr);
         if ($length <= 1) {
             return $arr;
