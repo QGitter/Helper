@@ -2,7 +2,7 @@
 
 namespace QGitter;
 
-class FileSystem
+class File
 {
     use InstanceTrait;
 
@@ -43,6 +43,27 @@ class FileSystem
     }
 
     /**
+     * 判断该目录是否为空
+     * @param string $dir
+     * @return bool
+     */
+    public function isEmpty(string $dir): bool
+    {
+        if (!is_dir($dir)) {
+            return true;
+        }
+        $dir_handle = opendir($dir);
+        while (($file = readdir($dir_handle)) !== false) {
+            if ($file != '.' && $file != "..") {
+                closedir($dir_handle);
+                return false;
+            }
+        }
+        closedir($dir_handle);
+        return true;
+    }
+
+    /**
      * 递归遍历目录下所有文件
      * @param string $dir
      * @param array $filename_array
@@ -54,16 +75,14 @@ class FileSystem
             return [];
         }
         $dir_handler = opendir($dir);
-        if ($dir_handler) {
-            while (($file = readdir($dir_handler)) !== false) {
-                if ($file != "." && $file != "..") {
-                    $filename = $dir . DIRECTORY_SEPARATOR . $file;
-                    if (is_file($filename)) {
-                        $filename_array[] = "文件:" . $filename . PHP_EOL;
-                    } elseif (is_dir($filename)) {
-                        $filename_array[] = "目录:" . $filename . PHP_EOL;
-                        $this->listDir($filename, $filename_array);
-                    }
+        while (($file = readdir($dir_handler)) !== false) {
+            if ($file != "." && $file != "..") {
+                $filename = $dir . DIRECTORY_SEPARATOR . $file;
+                if (is_file($filename)) {
+                    $filename_array[] = "文件:" . $filename . PHP_EOL;
+                } elseif (is_dir($filename)) {
+                    $filename_array[] = "目录:" . $filename . PHP_EOL;
+                    $this->listDir($filename, $filename_array);
                 }
             }
         }
