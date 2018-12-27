@@ -76,17 +76,48 @@ class File
         }
         $dir_handler = opendir($dir);
         while (($file = readdir($dir_handler)) !== false) {
-            if ($file != "." && $file != "..") {
-                $filename = $dir . DIRECTORY_SEPARATOR . $file;
-                if (is_file($filename)) {
-                    $filename_array[] = "文件:" . $filename . PHP_EOL;
-                } elseif (is_dir($filename)) {
-                    $filename_array[] = "目录:" . $filename . PHP_EOL;
-                    $this->listDir($filename, $filename_array);
-                }
+            if ($file == "." || $file == "..") {
+                continue;
+            }
+            $filename = $dir . DIRECTORY_SEPARATOR . $file;
+            if (is_link($filename)) {
+                continue;
+            }
+            if (is_file($filename)) {
+                $filename_array[] = "文件:" . $filename . PHP_EOL;
+            } elseif (is_dir($filename)) {
+                $filename_array[] = "目录:" . $filename . PHP_EOL;
+                $this->listDir($filename, $filename_array);
             }
         }
         closedir($dir_handler);
         return $filename_array;
+    }
+
+    /**
+     * 递归删除目录
+     * @param $dir
+     * @return bool
+     */
+    public function delDir($dir): bool
+    {
+        if (!is_dir($dir)) {
+            return false;
+        }
+        $dir_handler = opendir($dir);
+        while (($file = readdir($dir_handler)) !== false) {
+            if ($file == "." && $file == "..") {
+                continue;
+            }
+            $filename = $dir . DIRECTORY_SEPARATOR . $file;
+            if (is_file($filename)) {
+                unlink($filename);
+            } elseif (is_dir($filename)) {
+                $this->delDir($filename);
+            }
+        }
+        closedir($dir_handler);
+        rmdir($dir);
+        return true;
     }
 }
