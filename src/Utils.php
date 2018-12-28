@@ -61,4 +61,24 @@ class Utils
         }
         return $ip;
     }
+
+    /**
+     * 无限极分类
+     * @param array $arr
+     * @param int $pid
+     * @param int $level
+     * @return array
+     */
+    public function tree(array $arr, int $pid = 0, int $level = 0): array
+    {
+        static $list = array();
+        foreach ($arr as $v) {
+            if ($v['pid'] == $pid) {
+                $v['level'] = $level;
+                $list[] = $v;
+                $this->tree($arr, $v['id'], $level + 1);
+            }
+        }
+        return $list;
+    }
 }
