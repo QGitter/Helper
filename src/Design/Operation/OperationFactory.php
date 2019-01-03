@@ -13,7 +13,7 @@ class OperationFactory
     {
         $oper = null;
         if (empty($operation)) {
-            return false;
+            return null;
         }
         switch ($operation) {
             case '+':
