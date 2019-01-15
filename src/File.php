@@ -120,4 +120,32 @@ class File
         rmdir($dir);
         return true;
     }
+
+    /**
+     * 统计目录大小
+     * @param string $dir
+     * @return int
+     */
+    function dirsize(string $dir): int
+    {
+        if (!is_dir($dir)) {
+            return 0;
+        }
+        $dirsize = 0;
+        $dir_handler = opendir($dir);
+        while ($file = readdir($dir_handler)) {
+            if ($file == "." && $file == "..") {
+                continue;
+            }
+            $filename = $dir . DIRECTORY_SEPARATOR . $file;
+            if (is_dir($file)) {
+                $dirsize += $this->dirsize($filename);
+            } else {
+                $dirsize += filesize($filename);
+            }
+        }
+        closedir($dir_handler);
+        return $dirsize;
+    }
+
 }
