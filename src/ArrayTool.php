@@ -109,4 +109,35 @@ class ArrayTool
         }
         return (array)$object;
     }
+
+    /**
+     * 返回数组中指定多列
+     * @param array $input
+     * @param null $columnKey
+     * @param null $indexKey
+     * @return array
+     */
+    public function arrayColumns(array $input, $columnKey = null, $indexKey = null): array
+    {
+        $result = array();
+        $tmp = array();
+        $keys = isset($columnKey) ? explode(",", $columnKey) : array();
+        if ($input) {
+            foreach ($input as $key => $value) {
+                if ($keys) {
+                    foreach ($keys as $k) {
+                        $tmp[$k] = $value[$k];
+                    }
+                } else {
+                    $tmp = $value;
+                }
+                if (isset($indexKey)) {
+                    $result[$value[$indexKey]] = $tmp;
+                } else {
+                    $result[] = $tmp;
+                }
+            }
+        }
+        return $result;
+    }
 }

@@ -50,5 +50,12 @@ class ArrayToolTest extends TestCase
         $array = ArrayTool::getInstance()->objectToArray($object);
         print_r($array);
     }
+
+    public function testArrayColumns()
+    {
+        $arr = array(array('id' => 1001, 'name' => 'fdipzone', 'age' => 18, 'profession' => 'programmer'), array('id' => 1002, 'name' => 'terry', 'age' => 19, 'profession' => 'designer'), array('id' => 1003, 'name' => 'alex', 'age' => 20, 'profession' => 'tester'),);
+        $array = ArrayTool::getInstance()->arrayColumns($arr, 'name,age', 'id');
+        print_r($array);
+    }
 }
 
